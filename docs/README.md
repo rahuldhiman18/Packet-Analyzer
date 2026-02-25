@@ -7,7 +7,7 @@ This project is built entirely using C++17 + standard libraries, without externa
 
 # Why This Project Exists
 
-As a student learning networking + systems programming, I wanted to understand:
+As a  learning networking + systems programming, I wanted to understand:
 
 How raw packets are structured
 
@@ -44,7 +44,7 @@ PCAP File (.pcap)
 
 1) PCAP File Reading
 
-You learn how Wireshark saves captured packets and how to parse:
+I learn how Wireshark saves captured packets and how to parse:
 
 Global header
 
