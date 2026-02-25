@@ -133,35 +133,11 @@ Clear, simple, easy to understand.
 
 ## **Architecture Diagram**:-
 
-+------------------+
-|   PCAP Reader    |
-|  (raw packets)   |
-+--------+---------+
-         |
-         v
-+--------+---------+
-| Packet Parser    |
-| Ethernet / IP /  |
-| TCP extraction   |
-+--------+---------+
-         |
-         v
-+--------+---------+
-| SNI Extractor    |
-| TLS ClientHello  |
-| domain detection |
-+--------+---------+
-         |
-         v
-+--------+---------+
-| Rule Engine      |
-| Block / Allow    |
-+--------+---------+
-         |
-         v
-+------------------+
-| Output Writer    |
-+------------------+
+## Architecture Diagram
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/42f4fde5-296d-4611-8810-688f5e75b3e2" width="650">
+</p>
  
  ## What the Simple Version Does
 
