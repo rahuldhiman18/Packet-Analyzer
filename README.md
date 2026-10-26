@@ -1,4 +1,4 @@
-# 📡 Packet Analyzer — Educational Deep Packet Inspection (DPI) Engine
+﻿# ðŸ“¡ Packet Analyzer â€” Educational Deep Packet Inspection (DPI) Engine
 
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-blue.svg)](https://en.wikipedia.org/wiki/C%2B%2B17)
 [![CMake](https://img.shields.io/badge/Build-CMake-green.svg)](https://cmake.org/)
@@ -6,11 +6,11 @@
 [![Dependencies](https://img.shields.io/badge/Dependencies-Zero-brightgreen.svg)](https://github.com/rahuldhiman18/Packet-Analyzer)
 
 > A beginner-friendly, **zero-dependency** Deep Packet Inspection system written in modern C++17.  
-> It reads real network capture files (`.pcap`), inspects traffic at the packet level, identifies applications even inside encrypted HTTPS (via TLS SNI), applies blocking rules, and writes out a filtered capture — all from scratch.
+> It reads real network capture files (`.pcap`), inspects traffic at the packet level, identifies applications even inside encrypted HTTPS (via TLS SNI), applies blocking rules, and writes out a filtered capture â€” all from scratch.
 
 ---
 
-## 🎯 What Is This Project? (Simple Explanation)
+## ðŸŽ¯ What Is This Project? (Simple Explanation)
 
 Imagine the internet as a giant postal system. Every time you visit a website, stream a video, or send a message, your computer ships thousands of tiny envelopes called **packets** across the network.
 
@@ -22,80 +22,80 @@ A **Packet Analyzer** (or DPI engine) is like a smart mail-sorting facility. It:
 4. **Decides whether to deliver or block** the letter based on rules you set.
 5. **Keeps a record** of every conversation so you can see who talked to whom.
 
-This project is a **learning-oriented** version of that facility. It is not a replacement for Wireshark or commercial firewalls — it is designed to teach you how network inspection, flow tracking, and multi-threaded packet processing work under the hood.
+This project is a **learning-oriented** version of that facility. It is not a replacement for Wireshark or commercial firewalls â€” it is designed to teach you how network inspection, flow tracking, and multi-threaded packet processing work under the hood.
 
 ---
-## ✨ Key Features
+## âœ¨ Key Features
 
 | Feature | What It Does |
 |---------|--------------|
-| 📦 **PCAP File Reader** | Parses standard `.pcap` capture files (Wireshark/tcpdump format) including endianness handling. |
-| 🔍 **Layered Packet Parser** | Manually walks Ethernet → IPv4 → TCP/UDP headers to extract ports, flags, and payload. |
-| 🌐 **TLS SNI Extraction** | Reads the domain name hidden inside HTTPS `Client Hello` packets (e.g., `youtube.com`). |
-| 📊 **Flow Tracking** | Groups packets into conversations using the **Five-Tuple** (source/destination IP, ports, protocol). |
-| 🚫 **Rule-Based Blocking** | Block traffic by IP address, application, domain (with wildcards), or port. |
-| ⚡ **Multi-Threaded Pipeline** | Reader → Load Balancers → Fast Path Workers → Writer (producer–consumer pattern). |
-| 📈 **Statistics & Reports** | Live counters, application breakdown, blocked/forwarded totals, and connection reports. |
-| 🧹 **Zero Dependencies** | Pure C++17 Standard Library — no Boost, no libpcap, no Wireshark SDK. |
+| ðŸ“¦ **PCAP File Reader** | Parses standard `.pcap` capture files (Wireshark/tcpdump format) including endianness handling. |
+| ðŸ” **Layered Packet Parser** | Manually walks Ethernet â†’ IPv4 â†’ TCP/UDP headers to extract ports, flags, and payload. |
+| ðŸŒ **TLS SNI Extraction** | Reads the domain name hidden inside HTTPS `Client Hello` packets (e.g., `youtube.com`). |
+| ðŸ“Š **Flow Tracking** | Groups packets into conversations using the **Five-Tuple** (source/destination IP, ports, protocol). |
+| ðŸš« **Rule-Based Blocking** | Block traffic by IP address, application, domain (with wildcards), or port. |
+| âš¡ **Multi-Threaded Pipeline** | Reader â†’ Load Balancers â†’ Fast Path Workers â†’ Writer (producerâ€“consumer pattern). |
+| ðŸ“ˆ **Statistics & Reports** | Live counters, application breakdown, blocked/forwarded totals, and connection reports. |
+| ðŸ§¹ **Zero Dependencies** | Pure C++17 Standard Library â€” no Boost, no libpcap, no Wireshark SDK. |
 
 ---
 
-## 🏗️ Architecture
+## ðŸ—ï¸ Architecture
 
 ### High-Level Data Flow
 
 ```text
-┌─────────────┐      ┌──────────────┐      ┌─────────────────┐      ┌──────────────┐
-│   INPUT     │      │  PCAP READER │      │  PACKET PARSER  │      │   SNI EXT.   │
-│  (.pcap)    │─────▶│  (L2→L4)     │─────▶│  (Ethernet/IP/  │─────▶│  (HTTPS      │
-│             │      │              │      │   TCP/UDP)      │      │   domain)    │
-└─────────────┘      └──────────────┘      └─────────────────┘      └──────┬───────┘
-                                                                           │
-                                                                           ▼
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                         RULE ENGINE (Block by IP / App / Domain / Port)         │
-└─────────────────────────────────────────────────────────────────────────────────┘
-                                                                           │
-                                                                           ▼
-┌─────────────┐      ┌──────────────┐      ┌─────────────────┐      ┌──────────────┐
-│   OUTPUT    │◀─────│  CONNECTION  │◀─────│   FLOW TRACKER  │◀─────│   RESULT     │
-│  (.pcap)    │      │   WRITER     │      │   (Five-Tuple)  │      │   (Allow/    │
-│             │      │              │      │                 │      │   Block)     │
-└─────────────┘      └──────────────┘      └─────────────────┘      └──────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   INPUT     â”‚      â”‚  PCAP READER â”‚      â”‚  PACKET PARSER  â”‚      â”‚   SNI EXT.   â”‚
+â”‚  (.pcap)    â”‚â”€â”€â”€â”€â”€â–¶â”‚  (L2â†’L4)     â”‚â”€â”€â”€â”€â”€â–¶â”‚  (Ethernet/IP/  â”‚â”€â”€â”€â”€â”€â–¶â”‚  (HTTPS      â”‚
+â”‚             â”‚      â”‚              â”‚      â”‚   TCP/UDP)      â”‚      â”‚   domain)    â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜      â””â”€â”€â”€â”€â”€â”€â”¬â”€â”€â”€â”€â”€â”€â”€â”˜
+                                                                           â”‚
+                                                                           â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                         RULE ENGINE (Block by IP / App / Domain / Port)         â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+                                                                           â”‚
+                                                                           â–¼
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”      â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚   OUTPUT    â”‚â—€â”€â”€â”€â”€â”€â”‚  CONNECTION  â”‚â—€â”€â”€â”€â”€â”€â”‚   FLOW TRACKER  â”‚â—€â”€â”€â”€â”€â”€â”‚   RESULT     â”‚
+â”‚  (.pcap)    â”‚      â”‚   WRITER     â”‚      â”‚   (Five-Tuple)  â”‚      â”‚   (Allow/    â”‚
+â”‚             â”‚      â”‚              â”‚      â”‚                 â”‚      â”‚   Block)     â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜      â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
 ### Multi-Threaded Pipeline (Full DPI Engine)
 
-The production-grade path uses a **producer–consumer** design so packets are processed in parallel without corrupting shared state:
+The production-grade path uses a **producerâ€“consumer** design so packets are processed in parallel without corrupting shared state:
 
 ```mermaid
 flowchart LR
-    subgraph Reader["📥 Reader Thread"]
+    subgraph Reader["ðŸ“¥ Reader Thread"]
         R[PCAP Reader<br/>reads packets from file]
     end
 
-    subgraph LB["⚖️ Load Balancers<br/>(2 threads)"]
+    subgraph LB["âš–ï¸ Load Balancers<br/>(2 threads)"]
         LB0[LB0]
         LB1[LB1]
     end
 
-    subgraph FP["🔧 Fast Path Processors<br/>(4 worker threads)"]
+    subgraph FP["ðŸ”§ Fast Path Processors<br/>(4 worker threads)"]
         FP0[FP0<br/>Flow Tracker + DPI + Rules]
         FP1[FP1]
         FP2[FP2]
         FP3[FP3]
     end
 
-    subgraph Writer["📤 Output Writer Thread"]
+    subgraph Writer["ðŸ“¤ Output Writer Thread"]
         W[Writes allowed packets<br/>to output.pcap]
     end
 
-    R -->|hash(5-tuple) % n_lbs| LB0
-    R -->|hash(5-tuple) % n_lbs| LB1
-    LB0 -->|hash(5-tuple) % fps| FP0
-    LB0 -->|hash(5-tuple) % fps| FP1
-    LB1 -->|hash(5-tuple) % fps| FP2
-    LB1 -->|hash(5-tuple) % fps| FP3
+    R -->|five tuple hash| LB0
+    R -->|five tuple hash| LB1
+    LB0 -->|flow hash| FP0
+    LB0 -->|flow hash| FP1
+    LB1 -->|flow hash| FP2
+    LB1 -->|flow hash| FP3
     FP0 --> W
     FP1 --> W
     FP2 --> W
@@ -108,38 +108,38 @@ flowchart LR
 ```
 
 **Why this design?**
-- **Consistent hashing:** Packets from the same conversation always land on the same worker thread. That means each thread tracks its own flows independently — no locks needed on the hot path.
+- **Consistent hashing:** Packets from the same conversation always land on the same worker thread. That means each thread tracks its own flows independently â€” no locks needed on the hot path.
 - **Thread-safe queues:** Bounded queues with condition variables move packets between stages safely.
 - **Lock-free stats:** Counters use `std::atomic` so reporting never blocks packet processing.
 
 ---
-## 🔬 How It Works (Step by Step)
+## ðŸ”¬ How It Works (Step by Step)
 
-### Step 1 — Read the Capture File
+### Step 1 â€” Read the Capture File
 The program opens a `.pcap` file (the standard format used by Wireshark). It reads the **global header** (magic number, version, link type) and then streams each packet one by one.
 
-### Step 2 — Parse Network Layers
+### Step 2 â€” Parse Network Layers
 Every packet is peeled like an onion:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  Ethernet Header (14 bytes)   →  MAC addresses, EtherType   │
-│  IPv4 Header (20–60 bytes)    →  Source IP, Dest IP, Proto  │
-│  TCP / UDP Header (8–60 bytes)→  Source Port, Dest Port     │
-│  Application Payload          →  Actual data (TLS, HTTP…)   │
-└─────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  Ethernet Header (14 bytes)   â†’  MAC addresses, EtherType   â”‚
+â”‚  IPv4 Header (20â€“60 bytes)    â†’  Source IP, Dest IP, Proto  â”‚
+â”‚  TCP / UDP Header (8â€“60 bytes)â†’  Source Port, Dest Port     â”‚
+â”‚  Application Payload          â†’  Actual data (TLS, HTTPâ€¦)   â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 ```
 
-### Step 3 — Identify the Application (SNI Extraction)
+### Step 3 â€” Identify the Application (SNI Extraction)
 HTTPS encrypts the contents, but the **Server Name Indication (SNI)** is sent in plaintext during the TLS handshake. The engine parses the TLS `Client Hello` and extracts the domain:
 
 ```
-Encrypted HTTPS traffic  ──►  Client Hello  ──►  SNI: "www.youtube.com"
+Encrypted HTTPS traffic  â”€â”€â–º  Client Hello  â”€â”€â–º  SNI: "www.youtube.com"
 ```
 
 This is the foundation of nearly all real-world DPI and parental-control systems.
 
-### Step 4 — Track the Flow (Five-Tuple)
+### Step 4 â€” Track the Flow (Five-Tuple)
 Each connection is uniquely identified by:
 
 | Field | Example |
@@ -152,65 +152,65 @@ Each connection is uniquely identified by:
 
 All packets sharing these five values belong to the same conversation (flow).
 
-### Step 5 — Apply Blocking Rules
+### Step 5 â€” Apply Blocking Rules
 You can block traffic by:
 - **IP address** (e.g., block a specific user)
 - **Application** (e.g., block YouTube)
 - **Domain** (e.g., block `*.facebook.com` with wildcards)
 - **Port** (e.g., block port 8080)
 
-### Step 6 — Write the Output
+### Step 6 â€” Write the Output
 Allowed packets are written to a new `.pcap` file that you can open in Wireshark to verify the results.
 
 ---
-## 📁 Project Structure
+## ðŸ“ Project Structure
 
 ```text
 Packet_Analyzer/
-├── README.md                    # This file
-├── CMakeLists.txt               # CMake build configuration
-├── docs/WINDOWS_SETUP.md        # Detailed Windows setup guide
-│
-├── include/                     # Header files
-│   ├── types.h                  # FiveTuple, Connection, AppType, DPIStats
-│   ├── platform.h               # Portable endian (big/little) conversion
-│   ├── pcap_reader.h            # PCAP file reader
-│   ├── packet_parser.h          # Ethernet/IPv4/TCP/UDP parser
-│   ├── sni_extractor.h          # TLS SNI / HTTP / DNS / QUIC extraction
-│   ├── connection_tracker.h     # Per-flow state machine
-│   ├── rule_manager.h           # Blocking rules (IP/App/Domain/Port)
-│   ├── fast_path.h              # Multi-threaded worker + manager
-│   ├── load_balancer.h          # Load balancer + consistent hashing
-│   ├── thread_safe_queue.h      # Thread-safe producer-consumer queue
-│   └── dpi_engine.h             # Engine orchestrator
-│
-├── src/                         # Source files
-│   ├── main.cpp                 # Simple single-threaded analyzer (CMake target)
-│   ├── main_dpi.cpp             # Full multi-threaded DPI engine entry
-│   ├── main_working.cpp         # Simplified working demo
-│   ├── main_simple.cpp          # Minimal test version
-│   ├── pcap_reader.cpp
-│   ├── packet_parser.cpp
-│   ├── sni_extractor.cpp
-│   ├── types.cpp
-│   ├── connection_tracker.cpp
-│   ├── rule_manager.cpp
-│   ├── fast_path.cpp
-│   ├── load_balancer.cpp
-│   └── dpi_engine.cpp
-│
-├── examples/                    # Sample captures & generator
-│   ├── test_dpi.pcap            # Sample input capture
-│   ├── output.pcap              # Sample output capture
-│   └── generate_test_pcap.py    # Python script to generate test captures
-│
-├── tests/                       # (Reserved for unit tests)
-├── build/                       # CMake build output (generated)
-└── .git/
+â”œâ”€â”€ README.md                    # This file
+â”œâ”€â”€ CMakeLists.txt               # CMake build configuration
+â”œâ”€â”€ docs/WINDOWS_SETUP.md        # Detailed Windows setup guide
+â”‚
+â”œâ”€â”€ include/                     # Header files
+â”‚   â”œâ”€â”€ types.h                  # FiveTuple, Connection, AppType, DPIStats
+â”‚   â”œâ”€â”€ platform.h               # Portable endian (big/little) conversion
+â”‚   â”œâ”€â”€ pcap_reader.h            # PCAP file reader
+â”‚   â”œâ”€â”€ packet_parser.h          # Ethernet/IPv4/TCP/UDP parser
+â”‚   â”œâ”€â”€ sni_extractor.h          # TLS SNI / HTTP / DNS / QUIC extraction
+â”‚   â”œâ”€â”€ connection_tracker.h     # Per-flow state machine
+â”‚   â”œâ”€â”€ rule_manager.h           # Blocking rules (IP/App/Domain/Port)
+â”‚   â”œâ”€â”€ fast_path.h              # Multi-threaded worker + manager
+â”‚   â”œâ”€â”€ load_balancer.h          # Load balancer + consistent hashing
+â”‚   â”œâ”€â”€ thread_safe_queue.h      # Thread-safe producer-consumer queue
+â”‚   â””â”€â”€ dpi_engine.h             # Engine orchestrator
+â”‚
+â”œâ”€â”€ src/                         # Source files
+â”‚   â”œâ”€â”€ main.cpp                 # Simple single-threaded analyzer (CMake target)
+â”‚   â”œâ”€â”€ main_dpi.cpp             # Full multi-threaded DPI engine entry
+â”‚   â”œâ”€â”€ main_working.cpp         # Simplified working demo
+â”‚   â”œâ”€â”€ main_simple.cpp          # Minimal test version
+â”‚   â”œâ”€â”€ pcap_reader.cpp
+â”‚   â”œâ”€â”€ packet_parser.cpp
+â”‚   â”œâ”€â”€ sni_extractor.cpp
+â”‚   â”œâ”€â”€ types.cpp
+â”‚   â”œâ”€â”€ connection_tracker.cpp
+â”‚   â”œâ”€â”€ rule_manager.cpp
+â”‚   â”œâ”€â”€ fast_path.cpp
+â”‚   â”œâ”€â”€ load_balancer.cpp
+â”‚   â””â”€â”€ dpi_engine.cpp
+â”‚
+â”œâ”€â”€ examples/                    # Sample captures & generator
+â”‚   â”œâ”€â”€ test_dpi.pcap            # Sample input capture
+â”‚   â”œâ”€â”€ output.pcap              # Sample output capture
+â”‚   â””â”€â”€ generate_test_pcap.py    # Python script to generate test captures
+â”‚
+â”œâ”€â”€ tests/                       # (Reserved for unit tests)
+â”œâ”€â”€ build/                       # CMake build output (generated)
+â””â”€â”€ .git/
 ```
 
 ---
-## 🛠️ Requirements
+## ðŸ› ï¸ Requirements
 
 ### Software
 | Requirement | Minimum | Notes |
@@ -228,9 +228,9 @@ Packet_Analyzer/
 
 ---
 
-## 🚀 How to Run (Windows)
+## ðŸš€ How to Run (Windows)
 
-### Option 1 — CMake + MinGW (Recommended, Verified ✅)
+### Option 1 â€” CMake + MinGW (Recommended, Verified âœ…)
 
 This builds the **simple packet analyzer** (`build/packet_analyzer.exe`), which reads a capture and prints a human-readable summary of every packet.
 
@@ -280,7 +280,7 @@ Time: 2023-11-15 03:43:20.484823
 ...
 ```
 
-### Option 2 — Full Multi-Threaded DPI Engine (Manual Build)
+### Option 2 â€” Full Multi-Threaded DPI Engine (Manual Build)
 
 This builds the **flagship DPI engine** with load balancers, fast-path workers, blocking rules, and reports (`dpi_engine.exe`). This target is compiled directly with g++ because it is not yet registered in `CMakeLists.txt`.
 
@@ -312,15 +312,15 @@ Options:
   --verbose             Enable verbose output
 ```
 
-### Option 3 — Visual Studio 2022 (GUI)
+### Option 3 â€” Visual Studio 2022 (GUI)
 
 1. Install **Visual Studio 2022 Community** with the **"Desktop development with C++"** workload.
-2. Open VS → **"Open a local folder"** → select the `Packet_Analyzer` folder.
+2. Open VS â†’ **"Open a local folder"** â†’ select the `Packet_Analyzer` folder.
 3. VS detects `CMakeLists.txt` automatically.
-4. Select **Build → Build All**.
+4. Select **Build â†’ Build All**.
 5. Run the executable from the generated `build\` folder.
 
-### Option 4 — WSL / Linux
+### Option 4 â€” WSL / Linux
 
 ```bash
 cmake -S . -B build
@@ -329,18 +329,18 @@ cmake --build build
 ```
 
 ---
-## 🎓 Key Concepts for Interviews
+## ðŸŽ“ Key Concepts for Interviews
 
 If you are presenting this project in an interview, here are the talking points that demonstrate systems-level understanding:
 
 1. **Five-Tuple Flow Identification**  
-   `{src_ip, dst_ip, src_port, dst_port, protocol}` uniquely identifies a network conversation — the same concept used by stateful firewalls and NAT.
+   `{src_ip, dst_ip, src_port, dst_port, protocol}` uniquely identifies a network conversation â€” the same concept used by stateful firewalls and NAT.
 
 2. **TLS SNI is the DPI Entry Point**  
    HTTPS encrypts payloads, but the domain name is visible in plaintext during the TLS `Client Hello` handshake. That is how firewalls can block `youtube.com` without decrypting traffic.
 
-3. **Producer–Consumer Pipeline**  
-   Reader → Load Balancer → Worker → Writer. Bounded thread-safe queues decouple stages and provide natural backpressure.
+3. **Producerâ€“Consumer Pipeline**  
+   Reader â†’ Load Balancer â†’ Worker â†’ Writer. Bounded thread-safe queues decouple stages and provide natural backpressure.
 
 4. **Consistent Hashing for Flow Affinity**  
    Hashing the Five-Tuple guarantees all packets of one conversation go to the same worker thread, so connection tracking requires **no mutex on the hot path**.
@@ -355,13 +355,13 @@ If you are presenting this project in an interview, here are the talking points 
    `std::thread`, `std::mutex`, `std::condition_variable`, `std::shared_mutex`, `std::atomic`, `std::optional`.
 
 8. **Zero-Dependency Systems Programming**  
-   Everything is implemented from scratch using only the C++ Standard Library — no libpcap, no Boost, no Wireshark SDK.
+   Everything is implemented from scratch using only the C++ Standard Library â€” no libpcap, no Boost, no Wireshark SDK.
 
-> ⚠️ **Honest note:** This is an *educational simplification*. Production DPI engines (like Suricata, Zeek, or commercial firewalls) also handle TLS 1.3 Encrypted Client Hello (ECH), packet reassembly/defragmentation, kernel bypass (DPDK/AF_XDP), and hardware offloading.
+> âš ï¸ **Honest note:** This is an *educational simplification*. Production DPI engines (like Suricata, Zeek, or commercial firewalls) also handle TLS 1.3 Encrypted Client Hello (ECH), packet reassembly/defragmentation, kernel bypass (DPDK/AF_XDP), and hardware offloading.
 
 ---
 
-## 🔮 Limitations & Future Work
+## ðŸ”® Limitations & Future Work
 
 - **TLS 1.3 / ECH:** Encrypted Client Hello hides the SNI; modern DPI requires additional techniques.
 - **Packet Reassembly:** TCP segments that span multiple packets are not reassembled before inspection.
@@ -370,7 +370,7 @@ If you are presenting this project in an interview, here are the talking points 
 
 ---
 
-## 🤝 Contributing
+## ðŸ¤ Contributing
 
 Contributions are welcome! Please:
 1. Fork the repository.
@@ -381,10 +381,11 @@ Contributions are welcome! Please:
 
 ---
 
-## 📄 License
+## ðŸ“„ License
 
 This project is for educational purposes. See the repository for license details.
 
 ---
 
-**Built with ❤️ and pure C++17 — no external libraries required.**
+**Built with â¤ï¸ and pure C++17 â€” no external libraries required.**
+
