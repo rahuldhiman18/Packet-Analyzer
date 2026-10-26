@@ -116,9 +116,9 @@ int main(int argc, char* argv[]) {
     }
     
     std::cout << "\n";
-    std::cout << "╔══════════════════════════════════════════════════════════════╗\n";
-    std::cout << "║                    DPI ENGINE v1.0                            ║\n";
-    std::cout << "╚══════════════════════════════════════════════════════════════╝\n\n";
+    std::cout << "+--------------------------------------------------------------+\n";
+    std::cout << "|                    DPI ENGINE v1.0                            |\n";
+    std::cout << "+--------------------------------------------------------------+\n\n";
     
     // Open input
     PcapReader reader;
@@ -278,16 +278,16 @@ int main(int argc, char* argv[]) {
     
     // Print report
     std::cout << "\n";
-    std::cout << "╔══════════════════════════════════════════════════════════════╗\n";
-    std::cout << "║                      PROCESSING REPORT                       ║\n";
-    std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-    std::cout << "║ Total Packets:      " << std::setw(10) << total_packets << "                             ║\n";
-    std::cout << "║ Forwarded:          " << std::setw(10) << forwarded << "                             ║\n";
-    std::cout << "║ Dropped:            " << std::setw(10) << dropped << "                             ║\n";
-    std::cout << "║ Active Flows:       " << std::setw(10) << flows.size() << "                             ║\n";
-    std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
-    std::cout << "║                    APPLICATION BREAKDOWN                     ║\n";
-    std::cout << "╠══════════════════════════════════════════════════════════════╣\n";
+    std::cout << "+--------------------------------------------------------------+\n";
+    std::cout << "|                      PROCESSING REPORT                       |\n";
+    std::cout << "+--------------------------------------------------------------|\n";
+    std::cout << "| Total Packets:      " << std::setw(10) << total_packets << "                             |\n";
+    std::cout << "| Forwarded:          " << std::setw(10) << forwarded << "                             |\n";
+    std::cout << "| Dropped:            " << std::setw(10) << dropped << "                             |\n";
+    std::cout << "| Active Flows:       " << std::setw(10) << flows.size() << "                             |\n";
+    std::cout << "+--------------------------------------------------------------|\n";
+    std::cout << "|                    APPLICATION BREAKDOWN                     |\n";
+    std::cout << "+--------------------------------------------------------------|\n";
     
     // Sort by count
     std::vector<std::pair<AppType, uint64_t>> sorted_apps(app_stats.begin(), app_stats.end());
@@ -299,13 +299,13 @@ int main(int argc, char* argv[]) {
         int bar_len = static_cast<int>(pct / 5);
         std::string bar(bar_len, '#');
         
-        std::cout << "║ " << std::setw(15) << std::left << appTypeToString(app)
+        std::cout << "| " << std::setw(15) << std::left << appTypeToString(app)
                   << std::setw(8) << std::right << count
                   << " " << std::setw(5) << std::fixed << std::setprecision(1) << pct << "% "
-                  << std::setw(20) << std::left << bar << "  ║\n";
+                  << std::setw(20) << std::left << bar << "  |\n";
     }
     
-    std::cout << "╚══════════════════════════════════════════════════════════════╝\n";
+    std::cout << "+--------------------------------------------------------------+\n";
     
     // List unique SNIs
     std::cout << "\n[Detected Applications/Domains]\n";

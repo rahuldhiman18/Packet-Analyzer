@@ -8,10 +8,10 @@ using namespace DPI;
 
 void printUsage(const char* program) {
     std::cout << R"(
-╔══════════════════════════════════════════════════════════════╗
-║                    DPI ENGINE v1.0                            ║
-║               Deep Packet Inspection System                   ║
-╚══════════════════════════════════════════════════════════════╝
++----------------------------------------------------------------+
+|                    DPI ENGINE v1.0                            |
+|               Deep Packet Inspection System                   |
++----------------------------------------------------------------+
 
 Usage: )" << program << R"( <input.pcap> <output.pcap> [options]
 
@@ -39,25 +39,25 @@ Supported Apps for Blocking:
   Microsoft, Apple, WhatsApp, Telegram, TikTok, Spotify, Zoom, Discord, GitHub
 
 Architecture:
-  ┌─────────────┐
-  │ PCAP Reader │  Reads packets from input file
-  └──────┬──────┘
-         │ hash(5-tuple) % num_lbs
-         ▼
-  ┌──────┴──────┐
-  │ Load Balancer │  2 LB threads distribute to FPs
-  │   LB0 │ LB1   │
-  └──┬────┴────┬──┘
-     │         │  hash(5-tuple) % fps_per_lb
-     ▼         ▼
-  ┌──┴──┐   ┌──┴──┐
-  │FP0-1│   │FP2-3│  4 FP threads: DPI, classification, blocking
-  └──┬──┘   └──┬──┘
-     │         │
-     ▼         ▼
-  ┌──┴─────────┴──┐
-  │ Output Writer │  Writes forwarded packets to output
-  └───────────────┘
+  +-------------+
+  | PCAP Reader |  Reads packets from input file
+  +------+------+
+         | hash(5-tuple) % num_lbs
+         v
+  +------+------+
+  | Load Balancer |  2 LB threads distribute to FPs
+  |   LB0   LB1   |
+  +---+---+---+---+
+      |       |  hash(5-tuple) % fps_per_lb
+      v       v
+  +---+---+   +---+---+
+  |FP0-1|   |FP2-3|  4 FP threads: DPI, classification, blocking
+  +-----+   +-----+
+      |       |
+      v       v
+  +---+---+---+---+
+  | Output Writer |  Writes forwarded packets to output
+  +---------------+
 
 )";
 }
@@ -77,23 +77,23 @@ int main(int argc, char* argv[]) {
         printUsage(argv[0]);
         return 1;
     }
-    
+
     std::string input_file = argv[1];
     std::string output_file = argv[2];
-    
+
     // Parse options
     DPIEngine::Config config;
     config.num_load_balancers = 2;
     config.fps_per_lb = 2;
-    
+
     std::vector<std::string> block_ips;
     std::vector<std::string> block_apps;
     std::vector<std::string> block_domains;
     std::string rules_file;
-    
+
     for (int i = 3; i < argc; i++) {
         std::string arg = argv[i];
-        
+
         if (arg == "--block-ip" && i + 1 < argc) {
             block_ips.push_back(argv[++i]);
         } else if (arg == "--block-app" && i + 1 < argc) {
@@ -113,42 +113,42 @@ int main(int argc, char* argv[]) {
             return 0;
         }
     }
-    
+
     // Create DPI engine
     DPIEngine engine(config);
-    
+
     // Initialize
     if (!engine.initialize()) {
         std::cerr << "Failed to initialize DPI engine\n";
         return 1;
     }
-    
+
     // Load rules from file if specified
     if (!rules_file.empty()) {
         engine.loadRules(rules_file);
     }
-    
+
     // Apply command-line blocking rules
     for (const auto& ip : block_ips) {
         engine.blockIP(ip);
     }
-    
+
     for (const auto& app : block_apps) {
         engine.blockApp(app);
     }
-    
+
     for (const auto& domain : block_domains) {
         engine.blockDomain(domain);
     }
-    
+
     // Process the file
     if (!engine.processFile(input_file, output_file)) {
         std::cerr << "Failed to process file\n";
         return 1;
     }
-    
+
     std::cout << "\nProcessing complete!\n";
     std::cout << "Output written to: " << output_file << "\n";
-    
+
     return 0;
 }

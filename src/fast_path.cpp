@@ -360,23 +360,23 @@ std::string FPManager::generateClassificationReport() const {
     }
     
     std::ostringstream ss;
-    ss << "\n╔══════════════════════════════════════════════════════════════╗\n";
-    ss << "║                 APPLICATION CLASSIFICATION REPORT             ║\n";
-    ss << "╠══════════════════════════════════════════════════════════════╣\n";
+    ss << "\n+--------------------------------------------------------------+\n";
+    ss << "|                 APPLICATION CLASSIFICATION REPORT             |\n";
+    ss << "+--------------------------------------------------------------|\n";
     
     size_t total = total_classified + total_unknown;
     double classified_pct = total > 0 ? (100.0 * total_classified / total) : 0;
     double unknown_pct = total > 0 ? (100.0 * total_unknown / total) : 0;
     
-    ss << "║ Total Connections:    " << std::setw(10) << total << "                           ║\n";
-    ss << "║ Classified:           " << std::setw(10) << total_classified 
-       << " (" << std::fixed << std::setprecision(1) << classified_pct << "%)                  ║\n";
-    ss << "║ Unidentified:         " << std::setw(10) << total_unknown
-       << " (" << std::fixed << std::setprecision(1) << unknown_pct << "%)                  ║\n";
+    ss << "| Total Connections:    " << std::setw(10) << total << "                           |\n";
+    ss << "| Classified:           " << std::setw(10) << total_classified 
+       << " (" << std::fixed << std::setprecision(1) << classified_pct << "%)                  |\n";
+    ss << "| Unidentified:         " << std::setw(10) << total_unknown
+       << " (" << std::fixed << std::setprecision(1) << unknown_pct << "%)                  |\n";
     
-    ss << "╠══════════════════════════════════════════════════════════════╣\n";
-    ss << "║                    APPLICATION DISTRIBUTION                   ║\n";
-    ss << "╠══════════════════════════════════════════════════════════════╣\n";
+    ss << "+--------------------------------------------------------------|\n";
+    ss << "|                    APPLICATION DISTRIBUTION                   |\n";
+    ss << "+--------------------------------------------------------------|\n";
     
     // Sort apps by count
     std::vector<std::pair<AppType, size_t>> sorted_apps(
@@ -391,13 +391,13 @@ std::string FPManager::generateClassificationReport() const {
         int bar_len = static_cast<int>(pct / 5);  // 20 chars max
         std::string bar(bar_len, '#');
         
-        ss << "║ " << std::setw(15) << std::left << appTypeToString(pair.first)
+        ss << "| " << std::setw(15) << std::left << appTypeToString(pair.first)
            << std::setw(8) << std::right << pair.second
            << " " << std::setw(5) << std::fixed << std::setprecision(1) << pct << "% "
-           << std::setw(20) << std::left << bar << "   ║\n";
+           << std::setw(20) << std::left << bar << "   |\n";
     }
     
-    ss << "╚══════════════════════════════════════════════════════════════╝\n";
+    ss << "+--------------------------------------------------------------+\n";
     
     return ss.str();
 }
